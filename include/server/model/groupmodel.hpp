@@ -16,8 +16,8 @@ public:
     void addGroup(int userid, int groupid, string role);
     // 查询用户所在群组信息
     vector<Group> queryGroups(int userid);
-    // 根据指定的 groupid 查询群组用户 id 列表，除 userid
-    // 自己，主要用户群聊业务给群组其它成员群发信息
+    // 根据指定的 groupid 查询群组用户 id 列表，根据 userid
+    // 给群组其它成员群发信息
     vector<int> queryGroupUsers(int userid, int groupid);
 };
 

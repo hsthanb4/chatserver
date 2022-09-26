@@ -49,13 +49,13 @@
 
 ![image-20220718105131015](http://taiichi.oss-cn-beijing.aliyuncs.com/img/image-20220718105131015.png)
 
-但是我们的设计目的又要存储离线消息，这就涉及到离线消息发给谁，谁发的，发的什么三个问题，所以我们又需要一个新表来存储离线消息。这样我们一旦有**离线消息**便可以往这个表里面去写入数据。
+如果消息接收方不在线，就涉及到离线消息，存储离线消息需要解决发给谁，谁发的，发的什么三个问题，所以我们又需要一个新表来存储离线消息。这样我们一旦有**离线消息**便可以往这个表里面去写入数据。
 
 **表OfflineMessage：**
 
 ![image-20220718105147362](http://taiichi.oss-cn-beijing.aliyuncs.com/img/image-20220718105147362.png)
 
-然后便是群组业务了，群组中我们需要有一个记录群组信息的表，方便我们**创建群**时往其中去写入数据；
+然后便是群组业务了，群组中我们需要有一个记录所有的群组的信息的表，方便我们**创建群**时往其中去写入数据；
 
 **表AllGroup：**
 
@@ -76,7 +76,7 @@
 这里要解释几点：
 
 - 名字带有 **model** 的类都是对数据库的操作类并不负责存储数据，而像User这个类则是负责暂存从数据库中查询到的数据
-- **FriendModel** 和 **OfflineMessageModel** 则是没有暂存数据的上层类，这是因为对于 **Friend** 来说，其数据本身就是一个 **User** ，只需要查询到好友的 **id** 然后在 **User** 表中内联查询一下便可得到信息；对于 **OfflineMessage** 这是没有必要
+- **FriendModel** 和 **OfflineMessageModel** 则是没有暂存数据的上层类，这是因为对于 **Friend** 来说，其数据本身就是一个 **User** ，只需要查询到好友的 **id** 然后在 **User** 表中内联查询一下便可得到信息；对于 **OfflineMessage** 没有必要进行暂存
 - 这些类都在`/include/server/model`里面
 
 # 通信格式
@@ -213,7 +213,7 @@ void on_message(const TcpConnectionPtr &, Buffer *, Timestamp);
     LOGINOUT_MSG,   //注销消息
 ```
 
-根据这些消息类型，我们可以在业务模块添加一个无序关联容器 **unordered_map** ，其间为消息类型，值为发生不同类型事件所应该调用方法。
+根据这些消息类型，我们可以在业务模块添加一个无序关联容器 **unordered_map** ，其键为消息类型，值为发生不同类型事件所应该调用方法。
 
 ```cpp
 msg_handler_map_.insert({LOGIN_MSG, bind(&ChatService::login, this, _1, _2, _3)});
