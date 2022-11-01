@@ -48,10 +48,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/taiichi/chat
+CMAKE_SOURCE_DIR = /home/archer/chat
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/taiichi/chat/build
+CMAKE_BINARY_DIR = /home/archer/chat
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -80,9 +80,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/taiichi/chat/build/CMakeFiles /home/taiichi/chat/build/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/archer/chat/CMakeFiles /home/archer/chat/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/taiichi/chat/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/archer/chat/CMakeFiles 0
 .PHONY : all
 
 # The main clean target

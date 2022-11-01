@@ -40,7 +40,7 @@ void ChatServer::onConnection(const TcpConnectionPtr &conn) {
 // 上报读写事件相关信息的回调函数
 void ChatServer::onMessage(const TcpConnectionPtr &conn, Buffer *buffer,
                            Timestamp time) {
-    string buf = buffer->retrieveAllAsString();
+    string buf = buffer->retrieveAllAsString(); 
     // 数据的反序列化
     json js = json::parse(buf);
     // 达到的目的：完全解耦网络模块的代码和业务模块的代码

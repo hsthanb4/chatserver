@@ -1,5 +1,4 @@
 #include "chatservice.hpp"
-
 #include <muduo/base/Logging.h>
 
 #include <map>
@@ -62,7 +61,7 @@ MsgHandler ChatService::getHandler(int msgid) {
     }
 }
 
-// 处理登录业务
+// 处理登录业务  ORM　对象关系映射，　业务层操作的都是对象，　DAO数据库访问对象，数据层
 void ChatService::login(const TcpConnectionPtr &conn, json &js,
                         Timestamp time) {
     int id = js["id"].get<int>();

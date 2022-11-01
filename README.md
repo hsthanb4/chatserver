@@ -19,7 +19,7 @@
 ## 业务流程
 
 项目大概是模仿QQ去实现一个通讯工具，主要业务分为注册、登录、加好友、查看离线消息、一对一群聊、创建群、加入群、群聊等，详细业务流程关系如下图：
-![image-20220718105023649](http://taiichi.oss-cn-beijing.aliyuncs.com/img/image-20220718105023649.png)
+![image-20220718105023649](/images/1.png)
 
 既然是模仿 **QQ** ，那么就要有客户端，服务端，存储数据的数据库。这样的话，我们就可以采用 **MVC** 架构。
 
@@ -40,30 +40,30 @@
 
 **表User：**
 
-![image-20220718105110684](http://taiichi.oss-cn-beijing.aliyuncs.com/img/image-20220718105110684.png)
+![image-20220718105110684](/images/user表.png)
 
 用户登录之后，首先就是进行聊天业务，我们必须要知道该用户的好友都有谁。
 在**加好友**时，我们就可以往这张表里面去写入信息并在**一对一聊天**时查询这里面的信息去看好友是否在线。
 
 **表Friend：**
 
-![image-20220718105131015](http://taiichi.oss-cn-beijing.aliyuncs.com/img/image-20220718105131015.png)
+![image-20220718105131015](/images/friend表.png)
 
 如果消息接收方不在线，就涉及到离线消息，存储离线消息需要解决发给谁，谁发的，发的什么三个问题，所以我们又需要一个新表来存储离线消息。这样我们一旦有**离线消息**便可以往这个表里面去写入数据。
 
 **表OfflineMessage：**
 
-![image-20220718105147362](http://taiichi.oss-cn-beijing.aliyuncs.com/img/image-20220718105147362.png)
+![image-20220718105147362](/images/offlinemessage表.png)
 
 然后便是群组业务了，群组中我们需要有一个记录所有的群组的信息的表，方便我们**创建群**时往其中去写入数据；
 
 **表AllGroup：**
 
-![image-20220718105210447](http://taiichi.oss-cn-beijing.aliyuncs.com/img/image-20220718105210447.png)
+![image-20220718105210447](/images/allgroup表.png)
 
 同时群里面肯定是有群员的，我们就需要一个记录群成员的表，我们在**加入群**的时候，把用户id写入这个表。并且在**发送群消息**的时候查询这个表由服务器向这些成员转发消息。
 
-![image-20220718105228261](http://taiichi.oss-cn-beijing.aliyuncs.com/img/image-20220718105228261.png)
+![image-20220718105228261](/images/group表.png)
 
 ## 数据库模块设计
 
@@ -71,7 +71,7 @@
 
 其是数据库模块中设计的最底层，为上层各个表以及其操作模块提供基础的服务。其关系图如下所示：
 
-![image-20220718105441517](http://taiichi.oss-cn-beijing.aliyuncs.com/img/image-20220718105441517.png)
+![image-20220718105441517](/images/2.png)
 
 这里要解释几点：
 
@@ -304,7 +304,7 @@ GroupModel group_model_;
 
 当一个新的客户端连接到来时，负载均衡模块便会根据我们在nginx.conf里面设置的参数来分配服务器资源。
 
-![image-20220718114806043](http://taiichi.oss-cn-beijing.aliyuncs.com/img/image-20220718114806043.png)
+![image-20220718114806043](/images/3.png)
 
 按图中所示，客户端只用连接我们的负载均衡服务器，然后服务器就会自动把client连接分配到对应的server服务器。
 
@@ -314,13 +314,13 @@ GroupModel group_model_;
 
 是像下面这样把每个服务器连接起来么？
 
-![image-20220718114920220](http://taiichi.oss-cn-beijing.aliyuncs.com/img/image-20220718114920220.png)
+![image-20220718114920220](/images/4.png)
 
 这样肯定不行，服务器之间关联性太强了，一旦多加一个服务器，以前的服务器都要增加一条指向它的连接。
 
 所以，我们可以借鉴交换机连接PC的思想，引入Redis消息队列中间件！
 
-<img src="http://taiichi.oss-cn-beijing.aliyuncs.com/img/image-20220718114515447.png" alt="image-20220718114515447" style="zoom:67%;" />
+<img src="/images/5.png" alt="image-20220718114515447" style="zoom:67%;" />
 
 当客户端登录的时候，服务器把它的id号 subscribe到redis中间件，表示该服务器对这个id发生的事件感兴趣，而Redis收到发送给该id的消息时就会 把消息转发到这个服务器上。
 
