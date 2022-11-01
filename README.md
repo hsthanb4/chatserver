@@ -19,7 +19,7 @@
 ## 业务流程
 
 项目大概是模仿QQ去实现一个通讯工具，主要业务分为注册、登录、加好友、查看离线消息、一对一群聊、创建群、加入群、群聊等，详细业务流程关系如下图：
-![业务流程](./images/1.png)
+![业务流程](https://github.com/hsthanb4/chatserver/tree/main/images/1.png)
 
 既然是模仿 **QQ** ，那么就要有客户端，服务端，存储数据的数据库。这样的话，我们就可以采用 **MVC** 架构。
 
@@ -40,20 +40,20 @@
 
 **表User：**
 
-![image-20220718105110684](./images/user表.png)
+![image-20220718105110684](https://github.com/hsthanb4/chatserver/tree/main/images/user表.png)
 
 用户登录之后，首先就是进行聊天业务，我们必须要知道该用户的好友都有谁。
 在**加好友**时，我们就可以往这张表里面去写入信息并在**一对一聊天**时查询这里面的信息去看好友是否在线。
 
 **表Friend：**
 
-![image-20220718105131015](./images/friend表.png)
+![image-20220718105131015](https://github.com/hsthanb4/chatserver/tree/main/images/friend表.png)
 
 如果消息接收方不在线，就涉及到离线消息，存储离线消息需要解决发给谁，谁发的，发的什么三个问题，所以我们又需要一个新表来存储离线消息。这样我们一旦有**离线消息**便可以往这个表里面去写入数据。
 
 **表OfflineMessage：**
 
-![image-20220718105147362](./images/offlinemessage表.png)
+![image-20220718105147362](https://github.com/hsthanb4/chatserver/tree/main/images/offlinemessage表.png)
 
 然后便是群组业务了，群组中我们需要有一个记录所有的群组的信息的表，方便我们**创建群**时往其中去写入数据；
 
