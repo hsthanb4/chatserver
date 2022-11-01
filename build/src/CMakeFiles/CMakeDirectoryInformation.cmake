@@ -3,7 +3,7 @@
 
 # Relative path conversion top directories.
 set(CMAKE_RELATIVE_PATH_TOP_SOURCE "/home/archer/chat")
-set(CMAKE_RELATIVE_PATH_TOP_BINARY "/home/archer/chat")
+set(CMAKE_RELATIVE_PATH_TOP_BINARY "/home/archer/chat/build")
 
 # Force unix paths in dependencies.
 set(CMAKE_FORCE_UNIX_PATHS 1)
